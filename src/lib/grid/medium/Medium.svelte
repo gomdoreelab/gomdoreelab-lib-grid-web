@@ -7,7 +7,7 @@
 	} = $props();
 </script>
 
-<div class="compact">
+<div class="medium">
 	{@render slotHeader?.()}
 	{@render slotBody?.()}
 	{@render slotBottom?.()}
@@ -15,12 +15,13 @@
 
 <style>
 	:root {
-		--compact-side-margin: 16px;
+		--medium-side-margin: 24px;
+		--medium-space-panes: 24px;
 	}
 
-	.compact {
-		margin-left: var(--compact-side-margin);
-		margin-right: var(--compact-side-margin);
+	.medium {
+		margin-left: var(--medium-side-margin);
+		margin-right: var(--medium-side-margin);
 		height: 100%;
 	}
 </style>
