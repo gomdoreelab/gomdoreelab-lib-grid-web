@@ -3,3 +3,7 @@
 </script>
 
 {@render children?.()}
+
+<style>
+	@import '/src/app.css';
+</style>

@@ -1,0 +1,9 @@
+:root {
+	--md-sys-shape-corner-none: 0;
+	--md-sys-shape-corner-extra-small: 2px;
+	--md-sys-shape-corner-small: 4px;
+	--md-sys-shape-corner-medium: 6px;
+	--md-sys-shape-corner-large: 8px;
+	--md-sys-shape-corner-extra-large: 10px;
+	--md-sys-shape-corner-full: 4px;
+}
