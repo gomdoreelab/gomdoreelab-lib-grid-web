@@ -1,13 +1,19 @@
 <script>
 	import { styles as typescaleStyles } from '@material/web/typography/md-typescale-styles.js';
+	import { Theme } from '$lib/function/theme.js';
+	import { onMount } from 'svelte';
 
 	let document;
 	let compact;
+
+	// Theme
+	const theme = new Theme('#0099ff');
+
 	let height = $state(0);
 	let {
 		// Properties
 		header = 'small',
-		theme = 'light',
+		// theme = 'light',
 		// Slots
 		slotHeader,
 		slotBody,
@@ -25,6 +31,10 @@
 			break;
 	}
 
+	onMount(() => {
+		theme.apply();
+	});
+
 	$effect(() => {
 		if (!document.adoptedStyleSheets.includes(typescaleStyles.styleSheet)) {
 			document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
@@ -40,7 +50,7 @@
 <svelte:document bind:this={document} />
 <svelte:window bind:innerHeight={height} />
 
-<div class={`layout ${theme}`} bind:this={compact}>
+<div class={`layout`} bind:this={compact}>
 	<section class="header">
 		{@render slotHeader?.()}
 	</section>
@@ -53,13 +63,6 @@
 </div>
 
 <style>
-	@import '$lib/css/light.css';
-	@import '$lib/css/light-mc.css';
-	@import '$lib/css/light-hc.css';
-	@import '$lib/css/dark.css';
-	@import '$lib/css/dark-mc.css';
-	@import '$lib/css/dark-hc.css';
-
 	:root {
 		--compact-side-margin: 16px;
 	}

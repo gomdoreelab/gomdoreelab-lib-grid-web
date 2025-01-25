@@ -1,5 +1,7 @@
 <script>
-	import { Compact, Medium, TopSmallAppBar } from '$lib/index.js';
+	import { Compact, Medium } from '$lib/index.js';
+	import '@material/web/button/filled-tonal-button.js';
+	import '@material/web/button/text-button.js';
 
 	let width = $state(0);
 
@@ -8,64 +10,22 @@
 
 <svelte:window bind:innerWidth={width} />
 
-{#if width >= 600}
-	<Medium>
-		{#snippet slotBody()}
-			<h1>Welcome to your library project</h1>
-			<p>
-				Create your package using @sveltejs/package and preview/showcase your work with SvelteKit
-			</p>
-			<p>
-				Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation
-			</p>
-		{/snippet}
-	</Medium>
-{:else}
-	<Compact header="small" theme="light">
-		{#snippet slotHeader()}
-			<TopSmallAppBar>
-				{#snippet slotLeadingIcon()}
-					gg
-				{/snippet}
-				{#snippet slotHeadline()}
-					제목
-				{/snippet}
-				{#snippet slotTrailingIcon()}
-					gg
-				{/snippet}
-			</TopSmallAppBar>
-		{/snippet}
-		{#snippet slotBody()}
-			<h1>Welcome to your library project</h1>
-			<p>
-				Create your package using @sveltejs/package and preview/showcase your work with SvelteKit
-				Create your package using @sveltejs/package and preview/showcase your work with SvelteKit
-				Create your package using @sveltejs/package and preview/showcase your work with SvelteKit
-				Create your package using @sveltejs/package and preview/showcase your work with SvelteKit
-				Create your package using @sveltejs/package and preview/showcase your work with SvelteKit
-				Create your package using @sveltejs/package and preview/showcase your work with SvelteKit
-				Create your package using @sveltejs/package and preview/showcase your work with SvelteKit
-				Create your package using @sveltejs/package and preview/showcase your work with SvelteKit
-				Create your package using @sveltejs/package and preview/showcase your work with SvelteKit
-				Create your package using @sveltejs/package and preview/showcase your work with SvelteKit
-				Create your package using @sveltejs/package and preview/showcase your work with SvelteKit
-				Create your package using @sveltejs/package and preview/showcase your work with SvelteKit
-				Create your package using @sveltejs/package and preview/showcase your work with SvelteKit
-				Create your package using @sveltejs/package and preview/showcase your work with SvelteKit
-				Create your package using @sveltejs/package and preview/showcase your work with SvelteKit
-				Create your package using @sveltejs/package and preview/showcase your work with SvelteKit
-				Create your package using @sveltejs/package and preview/showcase your work with SvelteKit
-				Create your package using @sveltejs/package and preview/showcase your work with SvelteKit
-				Create your package using @sveltejs/package and preview/showcase your work with SvelteKit
-			</p>
-			<p>
-				Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation
-			</p>
-		{/snippet}
-		{#snippet slotBottom()}
-			<p>
-				{width}
-			</p>
-		{/snippet}
-	</Compact>
-{/if}
+<Compact>
+	{#snippet slotBody()}
+		<md-filled-tonal-button>
+			Send
+			<svg slot="icon" viewBox="0 0 48 48"
+				><path d="M6 40V8l38 16Zm3-4.65L36.2 24 9 12.5v8.4L21.1 24 9 27Zm0 0V12.5 27Z" /></svg
+			>
+		</md-filled-tonal-button>
+
+		<md-text-button trailing-icon>
+			Open
+			<svg slot="icon" viewBox="0 0 48 48"
+				><path
+					d="M9 42q-1.2 0-2.1-.9Q6 40.2 6 39V9q0-1.2.9-2.1Q7.8 6 9 6h13.95v3H9v30h30V25.05h3V39q0 1.2-.9 2.1-.9.9-2.1.9Zm10.1-10.95L17 28.9 36.9 9H25.95V6H42v16.05h-3v-10.9Z"
+				/></svg
+			>
+		</md-text-button>
+	{/snippet}
+</Compact>
