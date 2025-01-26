@@ -1,79 +1,58 @@
 <script>
-	import { styles as typescaleStyles } from '@material/web/typography/md-typescale-styles.js';
-	import { Theme } from '$lib/function/theme.js';
 	import { onMount } from 'svelte';
+	import { getResizeObserver } from 'gomdoreelab-lib-material-web';
 
-	let document;
-	let compact;
-
-	// Theme
-	const theme = new Theme('#0099ff');
-
-	let height = $state(0);
 	let {
-		// Properties
-		header = 'small',
-		// theme = 'light',
+		footerType = 'appbar', // "appbar" | 'navagation'
 		// Slots
-		slotHeader,
-		slotBody,
-		slotBottom
+		_header,
+		_body,
+		_footer
 	} = $props();
-	let headerHeight = 0;
-
-	switch (header) {
-		case 'small':
-			headerHeight = '64';
-
-			break;
-
-		default:
-			break;
-	}
 
 	onMount(() => {
-		theme.apply();
-	});
+		const header = document.querySelector('mdui-top-app-bar');
+		const body = document.querySelector('.compact > .body');
+		const footer =
+			footerType === 'appbar'
+				? document.querySelector('mdui-bottom-app-bar')
+				: document.querySelector('mdui-navigation-bar');
 
-	$effect(() => {
-		if (!document.adoptedStyleSheets.includes(typescaleStyles.styleSheet)) {
-			document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
-		}
+		getResizeObserver(header, (entry) => {
+			const headerHeight = entry.borderBoxSize[0].blockSize ?? '64px';
+			const footerHeight = footer.clientHeight;
+			const innerHeight = window.innerHeight;
 
-		compact.style.setProperty(
-			'grid-template-rows',
-			`${headerHeight}px ${height - 80 - headerHeight}px 80px`
-		);
+			body.style.height = `${innerHeight - headerHeight - footerHeight}px`;
+			body.style.paddingTop = `${headerHeight}px`;
+		});
 	});
 </script>
 
-<svelte:document bind:this={document} />
-<svelte:window bind:innerHeight={height} />
-
-<div class={`layout`} bind:this={compact}>
+<div class="compact">
 	<section class="header">
-		{@render slotHeader?.()}
+		{@render _header?.()}
 	</section>
+
 	<section class="body">
-		{@render slotBody?.()}
+		{@render _body?.()}
 	</section>
-	<section class="bottom">
-		{@render slotBottom?.()}
+
+	<section class="footer">
+		{@render _footer?.()}
 	</section>
 </div>
 
 <style>
-	:root {
-		--compact-side-margin: 16px;
-	}
+	@import '../../css/typography.css';
 
-	.layout {
-		display: grid;
-		height: 100vh;
+	.compact {
+		display: flex;
+		flex-direction: column;
+		font-family: var(--gl-font-family-plain);
 	}
 
 	.body {
-		height: 100%;
 		overflow-y: scroll;
 	}
 </style>

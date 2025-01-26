@@ -13,7 +13,7 @@
 
 	onMount(() => {
 		const header = document.querySelector('mdui-top-app-bar');
-		const body = document.querySelector('.medium > .body');
+		const body = document.querySelector('.expanded > .body');
 		const rail = document.querySelector('mdui-navigation-rail');
 
 		if (order === 'header') {
@@ -38,7 +38,7 @@
 	});
 </script>
 
-<div class="medium">
+<div class="expanded">
 	<section class="header">
 		{@render _header?.()}
 	</section>
@@ -55,7 +55,7 @@
 <style>
 	@import '../../css/typography.css';
 
-	.medium {
+	.expanded {
 		display: flex;
 		flex-direction: column;
 		font-family: var(--gl-font-family-plain);

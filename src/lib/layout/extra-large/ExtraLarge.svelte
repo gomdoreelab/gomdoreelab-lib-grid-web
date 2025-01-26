@@ -4,27 +4,27 @@
 
 	let {
 		// Properties
-		order = 'header', // "header" | "rail"
+		order = 'header', // "header" | "drawer"
 		// Slots
 		_header,
 		_body,
-		_rail
+		_drawer
 	} = $props();
 
 	onMount(() => {
 		const header = document.querySelector('mdui-top-app-bar');
-		const body = document.querySelector('.medium > .body');
-		const rail = document.querySelector('mdui-navigation-rail');
+		const body = document.querySelector('.extra-large > .body');
+		const drawer = document.querySelector('mdui-navigation-drawer');
 
 		if (order === 'header') {
 			getResizeObserver(header, (entry) => {
 				const height = entry.borderBoxSize[0].blockSize ?? '64px';
-				rail.style.top = `${height}px`;
+				drawer.style.top = `${height}px`;
 			});
 		}
 
-		if (order === 'rail') {
-			const width = rail.clientWidth;
+		if (order === 'drawer') {
+			const width = drawer.clientWidth;
 			header.style.left = `${width}px`;
 		}
 
@@ -38,7 +38,7 @@
 	});
 </script>
 
-<div class="medium">
+<div class="extra-large">
 	<section class="header">
 		{@render _header?.()}
 	</section>
@@ -47,15 +47,15 @@
 		{@render _body?.()}
 	</section>
 
-	<section class="rail">
-		{@render _rail?.()}
+	<section class="drawer">
+		{@render _drawer?.()}
 	</section>
 </div>
 
 <style>
 	@import '../../css/typography.css';
 
-	.medium {
+	.extra-large {
 		display: flex;
 		flex-direction: column;
 		font-family: var(--gl-font-family-plain);

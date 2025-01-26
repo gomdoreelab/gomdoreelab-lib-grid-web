@@ -4,36 +4,28 @@
 
 	let {
 		// Properties
-		order = 'header', // "header" | "rail"
+		footerType = 'appbar', // "appbar" | 'navagation'
 		// Slots
 		_header,
-		_body,
-		_rail
+		_left,
+		_right,
+		_footer
 	} = $props();
 
 	onMount(() => {
 		const header = document.querySelector('mdui-top-app-bar');
 		const body = document.querySelector('.medium > .body');
-		const rail = document.querySelector('mdui-navigation-rail');
-
-		if (order === 'header') {
-			getResizeObserver(header, (entry) => {
-				const height = entry.borderBoxSize[0].blockSize ?? '64px';
-				rail.style.top = `${height}px`;
-			});
-		}
-
-		if (order === 'rail') {
-			const width = rail.clientWidth;
-			header.style.left = `${width}px`;
-		}
+		const footer =
+			footerType === 'appbar'
+				? document.querySelector('mdui-bottom-app-bar')
+				: document.querySelector('mdui-navigation-bar');
 
 		getResizeObserver(header, (entry) => {
 			const headerHeight = entry.borderBoxSize[0].blockSize ?? '64px';
+			const footerHeight = footer.clientHeight;
 			const innerHeight = window.innerHeight;
 
-			body.style.height = `${innerHeight - headerHeight}px`;
-			body.style.paddingTop = `${headerHeight}px`;
+			body.style.height = `${innerHeight - headerHeight - footerHeight}px`;
 		});
 	});
 </script>
@@ -42,13 +34,17 @@
 	<section class="header">
 		{@render _header?.()}
 	</section>
-
 	<section class="body">
-		{@render _body?.()}
+		<section class="left">
+			{@render _left?.()}
+		</section>
+		<section class="right">
+			{@render _right?.()}
+		</section>
 	</section>
 
-	<section class="rail">
-		{@render _rail?.()}
+	<section class="footer">
+		{@render _footer?.()}
 	</section>
 </div>
 
@@ -62,6 +58,13 @@
 	}
 
 	.body {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 24px;
+	}
+
+	.left,
+	.right {
 		overflow-y: scroll;
 	}
 </style>

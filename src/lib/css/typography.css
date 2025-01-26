@@ -90,7 +90,7 @@
 }
 
 :root {
-	--md-ref-typeface-brand: 'Pretendard', 'Noto Sans KR', sans-serif;
-	--md-ref-typeface-plain: 'Pretendard', 'Noto Sans KR', sans-serif;
-	--md-ref-typeface-code: 'Fira Code', 'Nanum Gothic Coding', monospace;
+	--gl-font-family-brand: 'Pretendard', 'Noto Sans KR', sans-serif;
+	--gl-font-family-plain: 'Pretendard', 'Noto Sans KR', sans-serif;
+	--gl-font-family-code: 'Fira Code', 'Nanum Gothic Coding', monospace;
 }

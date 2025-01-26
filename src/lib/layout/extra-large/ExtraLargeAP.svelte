@@ -5,15 +5,20 @@
 	let {
 		// Properties
 		order = 'header', // "header" | "rail"
+		smallPane = 'left', // "left" | "right"
 		// Slots
 		_header,
-		_body,
+		_left,
+		_center,
+		_right,
 		_rail
 	} = $props();
+	let minimumPaneSize = '412px';
+	let additionalPaneSize = '400px';
 
 	onMount(() => {
 		const header = document.querySelector('mdui-top-app-bar');
-		const body = document.querySelector('.medium > .body');
+		const body = document.querySelector('.extra-large > .body');
 		const rail = document.querySelector('mdui-navigation-rail');
 
 		if (order === 'header') {
@@ -28,23 +33,40 @@
 			header.style.left = `${width}px`;
 		}
 
+		switch (smallPane) {
+			case 'left':
+				body.style.gridTemplateColumns = `${minimumPaneSize} 1fr ${additionalPaneSize}`;
+				break;
+
+			case 'right':
+				body.style.gridTemplateColumns = `${additionalPaneSize} 1fr ${minimumPaneSize}`;
+				break;
+		}
+
 		getResizeObserver(header, (entry) => {
 			const headerHeight = entry.borderBoxSize[0].blockSize ?? '64px';
 			const innerHeight = window.innerHeight;
 
-			body.style.height = `${innerHeight - headerHeight}px`;
-			body.style.paddingTop = `${headerHeight}px`;
+			body.style.height = `${innerHeight - headerHeight - footerHeight}px`;
 		});
 	});
 </script>
 
-<div class="medium">
+<div class="extra-large">
 	<section class="header">
 		{@render _header?.()}
 	</section>
 
 	<section class="body">
-		{@render _body?.()}
+		<section class="left">
+			{@render _left?.()}
+		</section>
+		<section class="center">
+			{@render _center?.()}
+		</section>
+		<section class="right">
+			{@render _right?.()}
+		</section>
 	</section>
 
 	<section class="rail">
@@ -55,13 +77,21 @@
 <style>
 	@import '../../css/typography.css';
 
-	.medium {
+	.extra-large {
 		display: flex;
 		flex-direction: column;
 		font-family: var(--gl-font-family-plain);
 	}
 
 	.body {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 24px;
+	}
+
+	.left,
+	.center,
+	.right {
 		overflow-y: scroll;
 	}
 </style>

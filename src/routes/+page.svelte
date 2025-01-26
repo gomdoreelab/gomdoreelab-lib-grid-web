@@ -1,31 +1,372 @@
 <script>
-	import { Compact, Medium } from '$lib/index.js';
-	import '@material/web/button/filled-tonal-button.js';
-	import '@material/web/button/text-button.js';
+	import { Compact, Medium, ExpandedTP } from '$lib/index.js';
+	import {
+		AppBarTop,
+		AppBarTopTitle,
+		AppBarBottom,
+		Rail,
+		ButtonIcon,
+		Icon,
+		Drawer
+	} from 'gomdoreelab-lib-material-web';
+	import { onMount } from 'svelte';
 
-	let width = $state(0);
+	let breakpoint = $state();
 
-	$effect(() => {});
+	function addBreakPointEvent() {
+		const compact = window.matchMedia('(min-width: 0px) and (max-width: 599px)');
+		compact.addEventListener('change', (event) => {
+			if (event.matches) breakpoint = 'compact';
+		});
+
+		const medium = window.matchMedia('(min-width: 600px) and (max-width: 839px)');
+		medium.addEventListener('change', (event) => {
+			if (event.matches) breakpoint = 'medium';
+		});
+
+		const expanded = window.matchMedia('(min-width: 840px) and (max-width: 1199px)');
+		expanded.addEventListener('change', (event) => {
+			if (event.matches) breakpoint = 'expanded';
+		});
+
+		const large = window.matchMedia('(min-width: 1200px) and (max-width: 1599px)');
+		large.addEventListener('change', (event) => {
+			if (event.matches) breakpoint = 'large';
+		});
+
+		const extraLarge = window.matchMedia('(min-width: 1600px)');
+		extraLarge.addEventListener('change', (event) => {
+			if (event.matches) breakpoint = 'extraLarge';
+		});
+
+		// Excecute Once
+		if (window.matchMedia('(min-width: 0px) and (max-width: 599px)').matches) return 'compact';
+		if (window.matchMedia('(min-width: 600px) and (max-width: 839px)').matches) return 'medium';
+		if (window.matchMedia('(min-width: 840px) and (max-width: 1199px)').matches) return 'expanded';
+		if (window.matchMedia('(min-width: 1200px) and (max-width: 1599px)').matches) return 'large';
+		return 'extraLarge';
+	}
+
+	onMount(() => {
+		breakpoint = addBreakPointEvent();
+	});
 </script>
 
-<svelte:window bind:innerWidth={width} />
-
-<Compact>
-	{#snippet slotBody()}
-		<md-filled-tonal-button>
-			Send
-			<svg slot="icon" viewBox="0 0 48 48"
-				><path d="M6 40V8l38 16Zm3-4.65L36.2 24 9 12.5v8.4L21.1 24 9 27Zm0 0V12.5 27Z" /></svg
+{#if breakpoint === 'compact'}
+	<Compact footerType="appbar">
+		{#snippet _header()}
+			<AppBarTop
+				variant="medium"
+				scroll-target=".compact > .body"
+				scroll-behavior="shrink"
+				scroll-threshold="30"
 			>
-		</md-filled-tonal-button>
-
-		<md-text-button trailing-icon>
-			Open
-			<svg slot="icon" viewBox="0 0 48 48"
-				><path
-					d="M9 42q-1.2 0-2.1-.9Q6 40.2 6 39V9q0-1.2.9-2.1Q7.8 6 9 6h13.95v3H9v30h30V25.05h3V39q0 1.2-.9 2.1-.9.9-2.1.9Zm10.1-10.95L17 28.9 36.9 9H25.95V6H42v16.05h-3v-10.9Z"
-				/></svg
+				<ButtonIcon>
+					<Icon>menu</Icon>
+				</ButtonIcon>
+				<AppBarTopTitle>Title</AppBarTopTitle>
+				<ButtonIcon>
+					<Icon>menu</Icon>
+				</ButtonIcon>
+			</AppBarTop>
+		{/snippet}
+		{#snippet _body()}
+			<div class="content">
+				Place navigation components close to edges of the window where they’re easier to reach. Use
+				a navigation rail or modal navigation drawer for single-pane layouts. Use a navigation bar
+				for two-pane layouts. The navigation rail can be hidden in secondary destinations as long as
+				the primary destination can still be accessed using a back button.Place navigation
+				components close to edges of the window where they’re easier to reach. Use a navigation rail
+				or modal navigation drawer for single-pane layouts. Use a navigation bar for two-pane
+				layouts. The navigation rail can be hidden in secondary destinations as long as the primary
+				destination can still be accessed using a back button.Place navigation components close to
+				edges of the window where they’re easier to reach. Use a navigation rail or modal navigation
+				drawer for single-pane layouts. Use a navigation bar for two-pane layouts. The navigation
+				rail can be hidden in secondary destinations as long as the primary destination can still be
+				accessed using a back button.Place navigation components close to edges of the window where
+				they’re easier to reach. Use a navigation rail or modal navigation drawer for single-pane
+				layouts. Use a navigation bar for two-pane layouts. The navigation rail can be hidden in
+				secondary destinations as long as the primary destination can still be accessed using a back
+				button.Place navigation components close to edges of the window where they’re easier to
+				reach. Use a navigation rail or modal navigation drawer for single-pane layouts. Use a
+				navigation bar for two-pane layouts. The navigation rail can be hidden in secondary
+				destinations as long as the primary destination can still be accessed using a back
+				button.Place navigation components close to edges of the window where they’re easier to
+				reach. Use a navigation rail or modal navigation drawer for single-pane layouts. Use a
+				navigation bar for two-pane layouts. The navigation rail can be hidden in secondary
+				destinations as long as the primary destination can still be accessed using a back button.
+				Place navigation components close to edges of the window where they’re easier to reach. Use
+				a navigation rail or modal navigation drawer for single-pane layouts. Use a navigation bar
+				for two-pane layouts. The navigation rail can be hidden in secondary destinations as long as
+				the primary destination can still be accessed using a back button.Place navigation
+				components close to edges of the window where they’re easier to reach. Use a navigation rail
+				or modal navigation drawer for single-pane layouts. Use a navigation bar for two-pane
+				layouts. The navigation rail can be hidden in secondary destinations as long as the primary
+				destination can still be accessed using a back button.Place navigation components close to
+				edges of the window where they’re easier to reach. Use a navigation rail or modal navigation
+				drawer for single-pane layouts. Use a navigation bar for two-pane layouts. The navigation
+				rail can be hidden in secondary destinations as long as the primary destination can still be
+				accessed using a back button.Place navigation components close to edges of the window where
+				they’re easier to reach. Use a navigation rail or modal navigation drawer for single-pane
+				layouts. Use a navigation bar for two-pane layouts. The navigation rail can be hidden in
+				secondary destinations as long as the primary destination can still be accessed using a back
+				button.Place navigation components close to edges of the window where they’re easier to
+				reach. Use a navigation rail or modal navigation drawer for single-pane layouts. Use a
+				navigation bar for two-pane layouts. The navigation rail can be hidden in secondary
+				destinations as long as the primary destination can still be accessed using a back button.
+				layouts. Use a navigation bar for two-pane layouts. The navigation rail can be hidden in
+				secondary destinations as long as the primary destination can still be accessed using a back
+				button.Place navigation components close to edges of the window where they’re easier to
+				reach. Use a navigation rail or modal navigation drawer for single-pane layouts. Use a
+				navigation bar for two-pane layouts. The navigation rail can be hidden in secondary
+				destinations as long as the primary destination can still be accessed using a back button.
+				layouts. Use a navigation bar for two-pane layouts. The navigation rail can be hidden in
+				secondary destinations as long as the primary destination can still be accessed using a back
+				button.Place navigation components close to edges of the window where they’re easier to
+				reach. Use a navigation rail or modal navigation drawer for single-pane layouts. Use a
+				navigation bar for two-pane layouts. The navigation rail can be hidden in secondary
+				destinations as long as the primary destination can still be accessed using a back button.
+				layouts. Use a navigation bar for two-pane layouts. The navigation rail can be hidden in
+				secondary destinations as long as the primary destination can still be accessed using a back
+				button.Place navigation components close to edges of the window where they’re easier to
+				reach. Use a navigation rail or modal navigation drawer for single-pane layouts. Use a
+				navigation bar for two-pane layouts. The navigation rail can be hidden in secondary
+				destinations as long as the primary destination can still be accessed using a back button.
+			</div>
+		{/snippet}
+		{#snippet _footer()}
+			<AppBarBottom scroll-target=".compact > .body"></AppBarBottom>
+		{/snippet}
+	</Compact>
+{:else if breakpoint === 'medium'}
+	<Medium order="header">
+		{#snippet _header()}
+			<AppBarTop
+				variant="medium"
+				scroll-target=".medium > .body"
+				scroll-behavior="shrink"
+				scroll-threshold="30"
 			>
-		</md-text-button>
-	{/snippet}
-</Compact>
+				<ButtonIcon>
+					<Icon>menu</Icon>
+				</ButtonIcon>
+				<AppBarTopTitle>Title</AppBarTopTitle>
+				<ButtonIcon>
+					<Icon>menu</Icon>
+				</ButtonIcon>
+			</AppBarTop>
+		{/snippet}
+		{#snippet _body()}
+			<div class="content">
+				Place navigation components close to edges of the window where they’re easier to reach. Use
+				a navigation rail or modal navigation drawer for single-pane layouts. Use a navigation bar
+				for two-pane layouts. The navigation rail can be hidden in secondary destinations as long as
+				the primary destination can still be accessed using a back button.Place navigation
+				components close to edges of the window where they’re easier to reach. Use a navigation rail
+				or modal navigation drawer for single-pane layouts. Use a navigation bar for two-pane
+				layouts. The navigation rail can be hidden in secondary destinations as long as the primary
+				destination can still be accessed using a back button.Place navigation components close to
+				edges of the window where they’re easier to reach. Use a navigation rail or modal navigation
+				drawer for single-pane layouts. Use a navigation bar for two-pane layouts. The navigation
+				rail can be hidden in secondary destinations as long as the primary destination can still be
+				accessed using a back button.Place navigation components close to edges of the window where
+				they’re easier to reach. Use a navigation rail or modal navigation drawer for single-pane
+				layouts. Use a navigation bar for two-pane layouts. The navigation rail can be hidden in
+				secondary destinations as long as the primary destination can still be accessed using a back
+				button.Place navigation components close to edges of the window where they’re easier to
+				reach. Use a navigation rail or modal navigation drawer for single-pane layouts. Use a
+				navigation bar for two-pane layouts. The navigation rail can be hidden in secondary
+				destinations as long as the primary destination can still be accessed using a back
+				button.Place navigation components close to edges of the window where they’re easier to
+				reach. Use a navigation rail or modal navigation drawer for single-pane layouts. Use a
+				navigation bar for two-pane layouts. The navigation rail can be hidden in secondary
+				destinations as long as the primary destination can still be accessed using a back button.
+				Place navigation components close to edges of the window where they’re easier to reach. Use
+				a navigation rail or modal navigation drawer for single-pane layouts. Use a navigation bar
+				for two-pane layouts. The navigation rail can be hidden in secondary destinations as long as
+				the primary destination can still be accessed using a back button.Place navigation
+				components close to edges of the window where they’re easier to reach. Use a navigation rail
+				or modal navigation drawer for single-pane layouts. Use a navigation bar for two-pane
+				layouts. The navigation rail can be hidden in secondary destinations as long as the primary
+				destination can still be accessed using a back button.Place navigation components close to
+				edges of the window where they’re easier to reach. Use a navigation rail or modal navigation
+				drawer for single-pane layouts. Use a navigation bar for two-pane layouts. The navigation
+				rail can be hidden in secondary destinations as long as the primary destination can still be
+				accessed using a back button.Place navigation components close to edges of the window where
+				they’re easier to reach. Use a navigation rail or modal navigation drawer for single-pane
+				layouts. Use a navigation bar for two-pane layouts. The navigation rail can be hidden in
+				secondary destinations as long as the primary destination can still be accessed using a back
+				button.Place navigation components close to edges of the window where they’re easier to
+				reach. Use a navigation rail or modal navigation drawer for single-pane layouts. Use a
+				navigation bar for two-pane layouts. The navigation rail can be hidden in secondary
+				destinations as long as the primary destination can still be accessed using a back button.
+				layouts. Use a navigation bar for two-pane layouts. The navigation rail can be hidden in
+				secondary destinations as long as the primary destination can still be accessed using a back
+				button.Place navigation components close to edges of the window where they’re easier to
+				reach. Use a navigation rail or modal navigation drawer for single-pane layouts. Use a
+				navigation bar for two-pane layouts. The navigation rail can be hidden in secondary
+				destinations as long as the primary destination can still be accessed using a back button.
+				layouts. Use a navigation bar for two-pane layouts. The navigation rail can be hidden in
+				secondary destinations as long as the primary destination can still be accessed using a back
+				button.Place navigation components close to edges of the window where they’re easier to
+				reach. Use a navigation rail or modal navigation drawer for single-pane layouts. Use a
+				navigation bar for two-pane layouts. The navigation rail can be hidden in secondary
+				destinations as long as the primary destination can still be accessed using a back button.
+				layouts. Use a navigation bar for two-pane layouts. The navigation rail can be hidden in
+				secondary destinations as long as the primary destination can still be accessed using a back
+				button.Place navigation components close to edges of the window where they’re easier to
+				reach. Use a navigation rail or modal navigation drawer for single-pane layouts. Use a
+				navigation bar for two-pane layouts. The navigation rail can be hidden in secondary
+				destinations as long as the primary destination can still be accessed using a back button.
+			</div>
+		{/snippet}
+		{#snippet _rail()}
+			<Rail></Rail>
+		{/snippet}
+	</Medium>
+{:else if breakpoint === 'expanded'}
+	<ExpandedTP smallPane="right" order="header">
+		{#snippet _header()}
+			<AppBarTop>
+				<ButtonIcon>
+					<Icon>menu</Icon>
+				</ButtonIcon>
+				<AppBarTopTitle>Title</AppBarTopTitle>
+				<ButtonIcon>
+					<Icon>menu</Icon>
+				</ButtonIcon>
+			</AppBarTop>
+		{/snippet}
+		{#snippet _left()}
+			<div class="content">
+				Place navigation components close to edges of the window where they’re easier to reach. Use
+				a navigation rail or modal navigation drawer for single-pane layouts. Use a navigation bar
+				for two-pane layouts. The navigation rail can be hidden in secondary destinations as long as
+				the primary destination can still be accessed using a back button.Place navigation
+				components close to edges of the window where they’re easier to reach. Use a navigation rail
+				or modal navigation drawer for single-pane layouts. Use a navigation bar for two-pane
+				layouts. The navigation rail can be hidden in secondary destinations as long as the primary
+				destination can still be accessed using a back button.Place navigation components close to
+				edges of the window where they’re easier to reach. Use a navigation rail or modal navigation
+				drawer for single-pane layouts. Use a navigation bar for two-pane layouts. The navigation
+				rail can be hidden in secondary destinations as long as the primary destination can still be
+				accessed using a back button.Place navigation components close to edges of the window where
+				they’re easier to reach. Use a navigation rail or modal navigation drawer for single-pane
+				layouts. Use a navigation bar for two-pane layouts. The navigation rail can be hidden in
+				secondary destinations as long as the primary destination can still be accessed using a back
+				button.Place navigation components close to edges of the window where they’re easier to
+				reach. Use a navigation rail or modal navigation drawer for single-pane layouts. Use a
+				navigation bar for two-pane layouts. The navigation rail can be hidden in secondary
+				destinations as long as the primary destination can still be accessed using a back
+				button.Place navigation components close to edges of the window where they’re easier to
+				reach. Use a navigation rail or modal navigation drawer for single-pane layouts. Use a
+				navigation bar for two-pane layouts. The navigation rail can be hidden in secondary
+				destinations as long as the primary destination can still be accessed using a back button.
+				Place navigation components close to edges of the window where they’re easier to reach. Use
+				a navigation rail or modal navigation drawer for single-pane layouts. Use a navigation bar
+				for two-pane layouts. The navigation rail can be hidden in secondary destinations as long as
+				the primary destination can still be accessed using a back button.Place navigation
+				components close to edges of the window where they’re easier to reach. Use a navigation rail
+				or modal navigation drawer for single-pane layouts. Use a navigation bar for two-pane
+				layouts. The navigation rail can be hidden in secondary destinations as long as the primary
+				destination can still be accessed using a back button.Place navigation components close to
+				edges of the window where they’re easier to reach. Use a navigation rail or modal navigation
+				drawer for single-pane layouts. Use a navigation bar for two-pane layouts. The navigation
+				rail can be hidden in secondary destinations as long as the primary destination can still be
+				accessed using a back button.Place navigation components close to edges of the window where
+				they’re easier to reach. Use a navigation rail or modal navigation drawer for single-pane
+				layouts. Use a navigation bar for two-pane layouts. The navigation rail can be hidden in
+				secondary destinations as long as the primary destination can still be accessed using a back
+				button.Place navigation components close to edges of the window where they’re easier to
+				reach. Use a navigation rail or modal navigation drawer for single-pane layouts. Use a
+				navigation bar for two-pane layouts. The navigation rail can be hidden in secondary
+				destinations as long as the primary destination can still be accessed using a back button.
+				layouts. Use a navigation bar for two-pane layouts. The navigation rail can be hidden in
+				secondary destinations as long as the primary destination can still be accessed using a back
+				button.Place navigation components close to edges of the window where they’re easier to
+				reach. Use a navigation rail or modal navigation drawer for single-pane layouts. Use a
+				navigation bar for two-pane layouts. The navigation rail can be hidden in secondary
+				destinations as long as the primary destination can still be accessed using a back button.
+				layouts. Use a navigation bar for two-pane layouts. The navigation rail can be hidden in
+				secondary destinations as long as the primary destination can still be accessed using a back
+				button.Place navigation components close to edges of the window where they’re easier to
+				reach. Use a navigation rail or modal navigation drawer for single-pane layouts. Use a
+				navigation bar for two-pane layouts. The navigation rail can be hidden in secondary
+				destinations as long as the primary destination can still be accessed using a back button.
+				layouts. Use a navigation bar for two-pane layouts. The navigation rail can be hidden in
+				secondary destinations as long as the primary destination can still be accessed using a back
+				button.Place navigation components close to edges of the window where they’re easier to
+				reach. Use a navigation rail or modal navigation drawer for single-pane layouts. Use a
+				navigation bar for two-pane layouts. The navigation rail can be hidden in secondary
+				destinations as long as the primary destination can still be accessed using a back button.
+			</div>
+		{/snippet}
+		{#snippet _right()}
+			<div class="content">
+				Place navigation components close to edges of the window where they’re easier to reach. Use
+				a navigation rail or modal navigation drawer for single-pane layouts. Use a navigation bar
+				for two-pane layouts. The navigation rail can be hidden in secondary destinations as long as
+				the primary destination can still be accessed using a back button.Place navigation
+				components close to edges of the window where they’re easier to reach. Use a navigation rail
+				or modal navigation drawer for single-pane layouts. Use a navigation bar for two-pane
+				layouts. The navigation rail can be hidden in secondary destinations as long as the primary
+				destination can still be accessed using a back button.Place navigation components close to
+				edges of the window where they’re easier to reach. Use a navigation rail or modal navigation
+				drawer for single-pane layouts. Use a navigation bar for two-pane layouts. The navigation
+				rail can be hidden in secondary destinations as long as the primary destination can still be
+				accessed using a back button.Place navigation components close to edges of the window where
+				they’re easier to reach. Use a navigation rail or modal navigation drawer for single-pane
+				layouts. Use a navigation bar for two-pane layouts. The navigation rail can be hidden in
+				secondary destinations as long as the primary destination can still be accessed using a back
+				button.Place navigation components close to edges of the window where they’re easier to
+				reach. Use a navigation rail or modal navigation drawer for single-pane layouts. Use a
+				navigation bar for two-pane layouts. The navigation rail can be hidden in secondary
+				destinations as long as the primary destination can still be accessed using a back
+				button.Place navigation components close to edges of the window where they’re easier to
+				reach. Use a navigation rail or modal navigation drawer for single-pane layouts. Use a
+				navigation bar for two-pane layouts. The navigation rail can be hidden in secondary
+				destinations as long as the primary destination can still be accessed using a back button.
+				Place navigation components close to edges of the window where they’re easier to reach. Use
+				a navigation rail or modal navigation drawer for single-pane layouts. Use a navigation bar
+				for two-pane layouts. The navigation rail can be hidden in secondary destinations as long as
+				the primary destination can still be accessed using a back button.Place navigation
+				components close to edges of the window where they’re easier to reach. Use a navigation rail
+				or modal navigation drawer for single-pane layouts. Use a navigation bar for two-pane
+				layouts. The navigation rail can be hidden in secondary destinations as long as the primary
+				destination can still be accessed using a back button.Place navigation components close to
+				edges of the window where they’re easier to reach. Use a navigation rail or modal navigation
+				drawer for single-pane layouts. Use a navigation bar for two-pane layouts. The navigation
+				rail can be hidden in secondary destinations as long as the primary destination can still be
+				accessed using a back button.Place navigation components close to edges of the window where
+				they’re easier to reach. Use a navigation rail or modal navigation drawer for single-pane
+				layouts. Use a navigation bar for two-pane layouts. The navigation rail can be hidden in
+				secondary destinations as long as the primary destination can still be accessed using a back
+				button.Place navigation components close to edges of the window where they’re easier to
+				reach. Use a navigation rail or modal navigation drawer for single-pane layouts. Use a
+				navigation bar for two-pane layouts. The navigation rail can be hidden in secondary
+				destinations as long as the primary destination can still be accessed using a back button.
+				layouts. Use a navigation bar for two-pane layouts. The navigation rail can be hidden in
+				secondary destinations as long as the primary destination can still be accessed using a back
+				button.Place navigation components close to edges of the window where they’re easier to
+				reach. Use a navigation rail or modal navigation drawer for single-pane layouts. Use a
+				navigation bar for two-pane layouts. The navigation rail can be hidden in secondary
+				destinations as long as the primary destination can still be accessed using a back button.
+				layouts. Use a navigation bar for two-pane layouts. The navigation rail can be hidden in
+				secondary destinations as long as the primary destination can still be accessed using a back
+				button.Place navigation components close to edges of the window where they’re easier to
+				reach. Use a navigation rail or modal navigation drawer for single-pane layouts. Use a
+				navigation bar for two-pane layouts. The navigation rail can be hidden in secondary
+				destinations as long as the primary destination can still be accessed using a back button.
+				layouts. Use a navigation bar for two-pane layouts. The navigation rail can be hidden in
+				secondary destinations as long as the primary destination can still be accessed using a back
+				button.Place navigation components close to edges of the window where they’re easier to
+				reach. Use a navigation rail or modal navigation drawer for single-pane layouts. Use a
+				navigation bar for two-pane layouts. The navigation rail can be hidden in secondary
+				destinations as long as the primary destination can still be accessed using a back button.
+			</div>
+		{/snippet}
+		{#snippet _footer()}
+			<AppBarBottom scroll-target=".compact > .body"></AppBarBottom>
+		{/snippet}
+	</ExpandedTP>
+{/if}
