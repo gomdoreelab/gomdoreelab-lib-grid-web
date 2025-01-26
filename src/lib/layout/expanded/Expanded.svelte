@@ -1,7 +1,7 @@
 <script>
 	import { onMount } from 'svelte';
 	import { getResizeObserver } from 'gomdoreelab-lib-material-web';
-	import '$lib/css/typography.css';
+	import '../../css/typography.css';
 
 	let {
 		// Properties
