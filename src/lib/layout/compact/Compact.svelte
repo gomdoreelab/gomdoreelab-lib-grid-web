@@ -1,6 +1,7 @@
 <script>
 	import { onMount } from 'svelte';
 	import { getResizeObserver } from 'gomdoreelab-lib-material-web';
+	import '$lib/css/typography.css';
 
 	let {
 		footerType = 'appbar', // "appbar" | 'navagation'
@@ -44,8 +45,6 @@
 </div>
 
 <style>
-	@import url('../../css/typography.css');
-
 	.compact {
 		display: flex;
 		flex-direction: column;

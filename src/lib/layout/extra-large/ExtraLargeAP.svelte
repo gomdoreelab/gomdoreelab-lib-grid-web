@@ -1,6 +1,7 @@
 <script>
 	import { onMount } from 'svelte';
 	import { getResizeObserver } from 'gomdoreelab-lib-material-web';
+	import '$lib/css/typography.css';
 
 	let {
 		// Properties
@@ -75,8 +76,6 @@
 </div>
 
 <style>
-	@import url('../../css/typography.css');
-
 	.extra-large {
 		display: flex;
 		flex-direction: column;
