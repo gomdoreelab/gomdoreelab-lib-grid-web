@@ -47,7 +47,7 @@
 			const headerHeight = entry.borderBoxSize[0].blockSize ?? '64px';
 			const innerHeight = window.innerHeight;
 
-			body.style.height = `${innerHeight - headerHeight - footerHeight}px`;
+			body.style.height = `${innerHeight - headerHeight}px`;
 		});
 	});
 </script>

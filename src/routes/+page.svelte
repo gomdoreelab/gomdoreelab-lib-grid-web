@@ -38,6 +38,10 @@
 		extraLarge.addEventListener('change', (event) => {
 			if (event.matches) breakpoint = 'extraLarge';
 		});
+	}
+
+	function getBreakPoint() {
+		addBreakPointEvent();
 
 		// Excecute Once
 		if (window.matchMedia('(min-width: 0px) and (max-width: 599px)').matches) return 'compact';
@@ -48,7 +52,7 @@
 	}
 
 	onMount(() => {
-		breakpoint = addBreakPointEvent();
+		breakpoint = getBreakPoint();
 	});
 </script>
 
@@ -365,8 +369,8 @@
 				destinations as long as the primary destination can still be accessed using a back button.
 			</div>
 		{/snippet}
-		{#snippet _footer()}
-			<AppBarBottom scroll-target=".compact > .body"></AppBarBottom>
+		{#snippet _rail()}
+			<Rail></Rail>
 		{/snippet}
 	</ExpandedTP>
 {/if}
