@@ -44,7 +44,7 @@
 </div>
 
 <style>
-	@import '../../css/typography.css';
+	@import url('../../css/typography.css');
 
 	.compact {
 		display: flex;

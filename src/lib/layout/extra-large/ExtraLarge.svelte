@@ -53,7 +53,7 @@
 </div>
 
 <style>
-	@import '../../css/typography.css';
+	@import url('../../css/typography.css');
 
 	.extra-large {
 		display: flex;
