@@ -1,6 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
-	import { getResizeObserver } from 'gomdoreelab-lib-material-web';
+	import { getBreakPoint, getResizeObserver } from 'gomdoreelab-lib-material-web';
 	import '../../css/typography.css';
 
 	let {
@@ -20,7 +20,12 @@
 		if (order === 'header') {
 			getResizeObserver(header, (entry) => {
 				const height = entry.borderBoxSize[0].blockSize ?? '64px';
-				drawer.style.top = `${height}px`;
+
+				try {
+					drawer.style.top = `${height}px`;
+				} catch (error) {
+					observer.unobserve();
+				}
 			});
 		}
 

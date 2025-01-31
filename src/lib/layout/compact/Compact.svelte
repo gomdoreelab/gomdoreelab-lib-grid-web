@@ -19,6 +19,9 @@
 				? document.querySelector('mdui-bottom-app-bar')
 				: document.querySelector('mdui-navigation-bar');
 
+		console.log(header);
+		console.log(body);
+
 		getResizeObserver(header, (entry) => {
 			const headerHeight = entry.borderBoxSize[0].blockSize ?? '64px';
 			const footerHeight = footer.clientHeight;
