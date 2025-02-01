@@ -1,5 +1,5 @@
 <script>
-	import { Layout, LayoutMain } from 'gomdoreelab-lib-material-web';
+	import { Layout, LayoutMain, getResizeObserver } from 'gomdoreelab-lib-material-web';
 	import '../../css/typography.css';
 	import { onDestroy, onMount } from 'svelte';
 
