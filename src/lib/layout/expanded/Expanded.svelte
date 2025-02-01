@@ -1,66 +1,47 @@
 <script>
-	import { onMount } from 'svelte';
-	import { getResizeObserver } from 'gomdoreelab-lib-material-web';
+	import { Layout, LayoutMain } from 'gomdoreelab-lib-material-web';
 	import '../../css/typography.css';
+	import { onDestroy, onMount } from 'svelte';
 
 	let {
-		// Properties
-		order = 'header', // "header" | "rail"
 		// Slots
 		_header,
 		_body,
-		_rail
+		_rail,
+		// And others
+		...props
 	} = $props();
 
-	onMount(() => {
-		const header = document.querySelector('mdui-top-app-bar');
-		const body = document.querySelector('.expanded > .body');
-		const rail = document.querySelector('mdui-navigation-rail');
+	let innerHeight = $state(0);
+	let innerWidth = $state(0);
 
-		if (order === 'header') {
-			getResizeObserver(header, (entry) => {
-				const height = entry.borderBoxSize[0].blockSize ?? '64px';
-				rail.style.top = `${height}px`;
+	let observer;
+
+	onMount(() => {
+		let header = document.querySelector('mdui-top-app-bar');
+		let order = header.order;
+
+		if (order > 0) {
+			observer = getResizeObserver(document.body, (_entry, _observer) => {
+				const left = header.style.left.replace('px', '');
+				header.style.width = `${innerWidth - left}px`;
 			});
 		}
+	});
 
-		if (order === 'rail') {
-			const width = rail.clientWidth;
-			header.style.left = `${width}px`;
-		}
-
-		getResizeObserver(header, (entry) => {
-			const headerHeight = entry.borderBoxSize[0].blockSize ?? '64px';
-			const innerHeight = window.innerHeight;
-
-			body.style.height = `${innerHeight - headerHeight}px`;
-			body.style.paddingTop = `${headerHeight}px`;
-		});
+	onDestroy(() => {
+		if (observer) observer.unobserve();
 	});
 </script>
 
-<div class="expanded">
-	<section class="header">
-		{@render _header?.()}
-	</section>
+<svelte:window bind:innerHeight bind:innerWidth />
 
-	<section class="body">
+<Layout style="font-family: var(--gl-font-family-plain); height: {innerHeight}px;" {...props}>
+	{@render _header?.()}
+
+	<LayoutMain id="expanded">
 		{@render _body?.()}
-	</section>
+	</LayoutMain>
 
-	<section class="rail">
-		{@render _rail?.()}
-	</section>
-</div>
-
-<style>
-	.expanded {
-		display: flex;
-		flex-direction: column;
-		font-family: var(--gl-font-family-plain);
-	}
-
-	.body {
-		overflow-y: scroll;
-	}
-</style>
+	{@render _rail?.()}
+</Layout>

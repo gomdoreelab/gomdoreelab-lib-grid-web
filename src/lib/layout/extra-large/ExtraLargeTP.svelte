@@ -1,94 +1,61 @@
 <script>
-	import { onMount } from 'svelte';
-	import { getResizeObserver } from 'gomdoreelab-lib-material-web';
+	import { Layout, LayoutItem, LayoutMain, getResizeObserver } from 'gomdoreelab-lib-material-web';
 	import '../../css/typography.css';
+	import { onDestroy, onMount } from 'svelte';
 
 	let {
-		// Properties
-		order = 'header', // "header" | "drawer"
-		smallPane = 'eqaul', // "left" | "right" | "equal"
+		placement = 'left',
 		// Slots
 		_header,
-		_left,
-		_right,
-		_drawer
+		_body,
+		_complement,
+		_drawer,
+		// And others
+		...props
 	} = $props();
-	let minimumPaneSize = '412px';
+
+	let innerHeight = $state(0);
+	let innerWidth = $state(0);
+
+	let observer;
 
 	onMount(() => {
-		const header = document.querySelector('mdui-top-app-bar');
-		const body = document.querySelector('.extra-large > .body');
-		const drawer = document.querySelector('mdui-navigation-drawer');
+		let header = document.querySelector('mdui-top-app-bar');
+		let order = header.order;
 
-		if (order === 'header') {
-			getResizeObserver(header, (entry) => {
-				const height = entry.borderBoxSize[0].blockSize ?? '64px';
-				drawer.style.top = `${height}px`;
+		if (order > 0) {
+			observer = getResizeObserver(document.body, (_entry, _observer) => {
+				const left = header.style.left.replace('px', '');
+				header.style.width = `${innerWidth - left}px`;
 			});
 		}
+	});
 
-		if (order === 'drawer') {
-			const width = drawer.clientWidth;
-			header.style.left = `${width}px`;
-		}
-
-		switch (smallPane) {
-			case 'equal':
-				body.style.gridTemplateColumns = 'repeat(2, 1fr)';
-				break;
-
-			case 'left':
-				body.style.gridTemplateColumns = `${minimumPaneSize} 1fr`;
-				break;
-
-			case 'right':
-				body.style.gridTemplateColumns = `1fr ${minimumPaneSize}`;
-				break;
-		}
-
-		getResizeObserver(header, (entry) => {
-			const headerHeight = entry.borderBoxSize[0].blockSize ?? '64px';
-			const innerHeight = window.innerHeight;
-
-			body.style.height = `${innerHeight - headerHeight}px`;
-		});
+	onDestroy(() => {
+		if (observer) observer.unobserve();
 	});
 </script>
 
-<div class="extra-large">
-	<section class="header">
-		{@render _header?.()}
-	</section>
+<svelte:window bind:innerHeight bind:innerWidth />
 
-	<section class="body">
-		<section class="left">
-			{@render _left?.()}
-		</section>
-		<section class="right">
-			{@render _right?.()}
-		</section>
-	</section>
+<Layout style="font-family: var(--gl-font-family-plain); height: {innerHeight}px;" {...props}>
+	{@render _header?.()}
 
-	<section class="drawer">
-		{@render _drawer?.()}
-	</section>
-</div>
+	<LayoutMain id="extra-large">
+		<main>
+			{@render _body?.()}
+		</main>
+	</LayoutMain>
 
-<style>
-	.extra-large {
-		display: flex;
-		flex-direction: column;
-		font-family: var(--gl-font-family-plain);
-	}
+	<LayoutItem
+		{placement}
+		style="height: calc(100% - 64px); width: 412px; overflow: auto;"
+		order={3}
+	>
+		<complement>
+			{@render _complement?.()}
+		</complement>
+	</LayoutItem>
 
-	.body {
-		display: grid;
-		grid-template-columns: repeat(2, 1fr);
-		gap: 24px;
-	}
-
-	.left,
-	.right {
-		overflow-y: scroll;
-	}
-</style>
+	{@render _drawer?.()}
+</Layout>

@@ -1,71 +1,49 @@
 <script>
-	import { onMount } from 'svelte';
-	import { getBreakPoint, getResizeObserver } from 'gomdoreelab-lib-material-web';
+	import { Layout, LayoutMain } from 'gomdoreelab-lib-material-web';
 	import '../../css/typography.css';
+	import { onDestroy, onMount } from 'svelte';
 
 	let {
-		// Properties
-		order = 'header', // "header" | "drawer"
 		// Slots
 		_header,
 		_body,
-		_drawer
+		_drawer,
+		// And others
+		...props
 	} = $props();
 
+	let innerHeight = $state(0);
+	let innerWidth = $state(0);
+
+	let observer;
+
 	onMount(() => {
-		const header = document.querySelector('mdui-top-app-bar');
-		const body = document.querySelector('.large > .body');
-		const drawer = document.querySelector('mdui-navigation-drawer');
+		let header = document.querySelector('mdui-top-app-bar');
+		let order = header.order;
 
-		if (order === 'header') {
-			getResizeObserver(header, (entry) => {
-				const height = entry.borderBoxSize[0].blockSize ?? '64px';
-
-				try {
-					drawer.style.top = `${height}px`;
-				} catch (error) {
-					observer.unobserve();
-				}
+		if (order > 0) {
+			observer = getResizeObserver(document.body, (_entry, _observer) => {
+				const left = header.style.left.replace('px', '');
+				header.style.width = `${innerWidth - left}px`;
 			});
 		}
+	});
 
-		if (order === 'drawer') {
-			const width = drawer.clientWidth;
-			header.style.left = `${width}px`;
-		}
-
-		getResizeObserver(header, (entry) => {
-			const headerHeight = entry.borderBoxSize[0].blockSize ?? '64px';
-			const innerHeight = window.innerHeight;
-
-			body.style.height = `${innerHeight - headerHeight}px`;
-			body.style.paddingTop = `${headerHeight}px`;
-		});
+	onDestroy(() => {
+		if (observer) observer.unobserve();
 	});
 </script>
 
-<div class="large">
-	<section class="header">
-		{@render _header?.()}
-	</section>
+<svelte:window bind:innerHeight bind:innerWidth />
 
-	<section class="body">
-		{@render _body?.()}
-	</section>
+<Layout style="font-family: var(--gl-font-family-plain); height: {innerHeight}px;" {...props}>
+	{@render _header?.()}
 
-	<section class="drawer">
-		{@render _drawer?.()}
-	</section>
-</div>
+	<LayoutMain id="large">
+		<main>
+			{@render _body?.()}
+		</main>
+	</LayoutMain>
 
-<style>
-	.large {
-		display: flex;
-		flex-direction: column;
-		font-family: var(--gl-font-family-plain);
-	}
-
-	.body {
-		overflow-y: scroll;
-	}
-</style>
+	{@render _drawer?.()}
+</Layout>

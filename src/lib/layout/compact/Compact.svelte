@@ -1,60 +1,29 @@
 <script>
-	import { onMount } from 'svelte';
-	import { getResizeObserver } from 'gomdoreelab-lib-material-web';
+	import { Layout, LayoutMain } from 'gomdoreelab-lib-material-web';
 	import '../../css/typography.css';
 
 	let {
-		footerType = 'appbar', // "appbar" | 'navagation'
 		// Slots
 		_header,
 		_body,
-		_footer
+		_footer,
+		// And others
+		...props
 	} = $props();
 
-	onMount(() => {
-		const header = document.querySelector('mdui-top-app-bar');
-		const body = document.querySelector('.compact > .body');
-		const footer =
-			footerType === 'appbar'
-				? document.querySelector('mdui-bottom-app-bar')
-				: document.querySelector('mdui-navigation-bar');
-
-		console.log(header);
-		console.log(body);
-
-		getResizeObserver(header, (entry) => {
-			const headerHeight = entry.borderBoxSize[0].blockSize ?? '64px';
-			const footerHeight = footer.clientHeight;
-			const innerHeight = window.innerHeight;
-
-			body.style.height = `${innerHeight - headerHeight - footerHeight}px`;
-			body.style.paddingTop = `${headerHeight}px`;
-		});
-	});
+	let innerHeight = $state(0);
 </script>
 
-<div class="compact">
-	<section class="header">
-		{@render _header?.()}
-	</section>
+<svelte:window bind:innerHeight />
 
-	<section class="body">
-		{@render _body?.()}
-	</section>
+<Layout style="font-family: var(--gl-font-family-plain); height: {innerHeight}px;" {...props}>
+	{@render _header?.()}
 
-	<section class="footer">
-		{@render _footer?.()}
-	</section>
-</div>
+	<LayoutMain id="compact">
+		<main>
+			{@render _body?.()}
+		</main>
+	</LayoutMain>
 
-<style>
-	.compact {
-		display: flex;
-		flex-direction: column;
-		font-family: var(--gl-font-family-plain);
-	}
-
-	.body {
-		overflow-y: scroll;
-	}
-</style>
+	{@render _footer?.()}
+</Layout>

@@ -1,6 +1,15 @@
-<script>
+<!-- <script>
 	// @ts-nocheck
-	import { Compact, Medium, Large } from '$lib/index.js';
+	import {
+		Compact,
+		Medium,
+		MediumTP,
+		ExpandedTP,
+		Large,
+		LargeTP,
+		ExtraLarge,
+		ExtraLargeAP
+	} from '$lib/index.js';
 	import {
 		AppBarTop,
 		AppBarTopTitle,
@@ -58,14 +67,9 @@
 </script>
 
 {#if ['compact'].includes(breakpoint)}
-	<Compact footerType="navigation">
+	<Compact>
 		{#snippet _header()}
-			<AppBarTop
-				variant="medium"
-				scroll-target=".compact > .body"
-				scroll-behavior="shrink"
-				scroll-threshold="30"
-			>
+			<AppBarTop variant="medium" scroll-behavior="shrink elevate" scroll-target="#compact">
 				<ButtonIcon>
 					<Icon name="menu"></Icon>
 				</ButtonIcon>
@@ -101,9 +105,9 @@
 					<section>
 						<h1>디자인</h1>
 					</section>
-					<section style="height: 1000px;">
+					<section>
 						<h3>지향점</h3>
-						<p>모든 서비스에서 동일한 경험을 주고 싶어요.</p>
+						<p>{`${'모든 서비스에서 동일한 경험을 주고 싶어요.'.repeat(100)}`}</p>
 					</section>
 				</div>
 			</Prose>
@@ -112,19 +116,14 @@
 			<NavigationBar />
 		{/snippet}
 	</Compact>
-{:else if ['medium', 'expanded'].includes(breakpoint)}
-	<Medium order="rail">
+{:else if ['medium'].includes(breakpoint)}
+	<MediumTP>
 		{#snippet _header()}
-			<AppBarTop
-				variant="medium"
-				scroll-target=".medium > .body"
-				scroll-behavior="shrink"
-				scroll-threshold="30"
-			>
+			<AppBarTop variant="small">
 				<ButtonIcon>
 					<Icon name="menu"></Icon>
 				</ButtonIcon>
-				<AppBarTopTitle>곰도리연구소</AppBarTopTitle>
+				<AppBarTopTitle>곰도리연구소 Medium</AppBarTopTitle>
 
 				<Dropdown>
 					{#snippet _trigger()}
@@ -156,32 +155,40 @@
 					<section>
 						<h1>디자인</h1>
 					</section>
-					<section style="height: 1000px;">
+					<section>
 						<h3>지향점</h3>
-						<p>모든 서비스에서 동일한 경험을 주고 싶어요.</p>
+						<p>{`${'모든 서비스에서 동일한 경험을 주고 싶어요.'.repeat(100)}`}</p>
 					</section>
 				</div>
 			</Prose>
 		{/snippet}
-		{#snippet _rail()}
-			<Rail />
+		{#snippet _complement()}
+			<Prose>
+				<div class="content">
+					<section>
+						<h1>디자인</h1>
+					</section>
+					<section>
+						<h3>지향점</h3>
+						<p>{`${'모든 서비스에서 동일한 경험을 주고 싶어요.'.repeat(100)}`}</p>
+					</section>
+				</div>
+			</Prose>
 		{/snippet}
-	</Medium>
-{:else}
-	<Large order="drawer">
+		{#snippet _footer()}
+			<NavigationBar />
+		{/snippet}
+	</MediumTP>
+{:else if ['expanded'].includes(breakpoint)}
+	<ExpandedTP>
 		{#snippet _header()}
-			<AppBarTop
-				variant="medium"
-				scroll-target=".large > .body"
-				scroll-behavior="shrink"
-				scroll-threshold="30"
-			>
+			<AppBarTop variant="small" order={1}>
 				<ButtonIcon>
 					<Icon name="menu"></Icon>
 				</ButtonIcon>
-				<AppBarTopTitle>곰도리연구소</AppBarTopTitle>
+				<AppBarTopTitle>곰도리연구소 Expanded</AppBarTopTitle>
 
-				<!-- <Dropdown>
+				<Dropdown>
 					{#snippet _trigger()}
 						<div slot="trigger">
 							<Tooltip content="테마">
@@ -202,7 +209,7 @@
 						<MenuItem value="light">Light</MenuItem>
 						<MenuItem value="dark">Dark</MenuItem>
 					</Menu>
-				</Dropdown> -->
+				</Dropdown>
 			</AppBarTop>
 		{/snippet}
 		{#snippet _body()}
@@ -211,17 +218,169 @@
 					<section>
 						<h1>디자인</h1>
 					</section>
-					<section style="height: 1000px;">
+					<section>
 						<h3>지향점</h3>
-						<p>모든 서비스에서 동일한 경험을 주고 싶어요.</p>
+						<p>{`${'모든 서비스에서 동일한 경험을 주고 싶어요.'.repeat(100)}`}</p>
+					</section>
+				</div>
+			</Prose>
+		{/snippet}
+		{#snippet _complement()}
+			<Prose>
+				<div class="content">
+					<section>
+						<h1>디자인</h1>
+					</section>
+					<section>
+						<h3>지향점</h3>
+						<p>{`${'모든 서비스에서 동일한 경험을 주고 싶어요.'.repeat(100)}`}</p>
+					</section>
+				</div>
+			</Prose>
+		{/snippet}
+		{#snippet _rail()}
+			<Rail order={0} />
+		{/snippet}
+	</ExpandedTP>
+{:else if ['large'].includes(breakpoint)}
+	<LargeTP placement="left">
+		{#snippet _header()}
+			<AppBarTop variant="small" order={0}>
+				<ButtonIcon>
+					<Icon name="menu"></Icon>
+				</ButtonIcon>
+				<AppBarTopTitle>곰도리연구소 Large</AppBarTopTitle>
+
+				<Dropdown>
+					{#snippet _trigger()}
+						<div slot="trigger">
+							<Tooltip content="테마">
+								<ButtonIcon>
+									<Icon name="wb_sunny--outlined"></Icon>
+								</ButtonIcon>
+							</Tooltip>
+						</div>
+					{/snippet}
+					<Menu
+						selects="single"
+						value={theme}
+						onchange={(event) => {
+							theme = event.target.value;
+							setHTMLTheme(theme);
+						}}
+					>
+						<MenuItem value="light">Light</MenuItem>
+						<MenuItem value="dark">Dark</MenuItem>
+					</Menu>
+				</Dropdown>
+			</AppBarTop>
+		{/snippet}
+		{#snippet _body()}
+			<Prose>
+				<div class="content">
+					<section>
+						<h1>디자인</h1>
+					</section>
+					<section>
+						<h3>지향점</h3>
+						<p>{`${'모든 서비스에서 동일한 경험을 주고 싶어요.'.repeat(100)}`}</p>
+					</section>
+				</div>
+			</Prose>
+		{/snippet}
+		{#snippet _complement()}
+			<Prose>
+				<div class="content">
+					<section>
+						<h1>디자인</h1>
+					</section>
+					<section>
+						<h3>지향점</h3>
+						<p>{`${'모든 서비스에서 동일한 경험을 주고 싶어요.'.repeat(100)}`}</p>
+					</section>
+				</div>
+			</Prose>
+		{/snippet}
+		{#snippet _rail()}
+			<Rail order={1} />
+		{/snippet}
+	</LargeTP>
+{:else if ['extraLarge'].includes(breakpoint)}
+	<ExtraLargeAP>
+		{#snippet _header()}
+			<AppBarTop variant="small" order={2}>
+				<ButtonIcon>
+					<Icon name="menu"></Icon>
+				</ButtonIcon>
+				<AppBarTopTitle>곰도리연구소EL</AppBarTopTitle>
+
+				<Dropdown>
+					{#snippet _trigger()}
+						<div slot="trigger">
+							<Tooltip content="테마">
+								<ButtonIcon>
+									<Icon name="wb_sunny--outlined"></Icon>
+								</ButtonIcon>
+							</Tooltip>
+						</div>
+					{/snippet}
+					<Menu
+						selects="single"
+						value={theme}
+						onchange={(event) => {
+							theme = event.target.value;
+							setHTMLTheme(theme);
+						}}
+					>
+						<MenuItem value="light">Light</MenuItem>
+						<MenuItem value="dark">Dark</MenuItem>
+					</Menu>
+				</Dropdown>
+			</AppBarTop>
+		{/snippet}
+		{#snippet _body()}
+			<Prose>
+				<div class="content">
+					<section>
+						<h1>디자인</h1>
+					</section>
+					<section>
+						<h3>지향점</h3>
+						<p>{`${'Main모든 서비스에서 동일한 경험을 주고 싶어요.'.repeat(100)}`}</p>
+					</section>
+				</div>
+			</Prose>
+		{/snippet}
+		{#snippet _complement()}
+			<Prose>
+				<div class="content">
+					<section>
+						<h1>디자인</h1>
+					</section>
+					<section>
+						<h3>지향점</h3>
+						<p>{`${'Comp모든 서비스에서 동일한 경험을 주고 싶어요.'.repeat(100)}`}</p>
+					</section>
+				</div>
+			</Prose>
+		{/snippet}
+		{#snippet _additional()}
+			<Prose>
+				<div class="content">
+					<section>
+						<h1>디자인</h1>
+					</section>
+					<section>
+						<h3>지향점</h3>
+						<p>{`${'Addi모든 서비스에서 동일한 경험을 주고 싶어요.'.repeat(100)}`}</p>
 					</section>
 				</div>
 			</Prose>
 		{/snippet}
 		{#snippet _drawer()}
-			<Drawer />
+			<Drawer order={1} />
 		{/snippet}
-	</Large>
+	</ExtraLargeAP>
 {/if}
 
 <style>
@@ -239,4 +398,4 @@
 	.content > section:first-of-type > h1 {
 		color: rgb(var(--mdui-color-primary));
 	}
-</style>
+</style> -->
