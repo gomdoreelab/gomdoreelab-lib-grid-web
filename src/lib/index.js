@@ -1,5 +1,6 @@
 // Compact
 export { default as Compact } from './layout/compact/Compact.svelte';
+export { default as CompactLong } from './layout/compact/CompactLong.svelte';
 
 // Medium
 export { default as Medium } from './layout/medium/Medium.svelte';
